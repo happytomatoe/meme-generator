@@ -2,6 +2,9 @@ import random
 import os
 import requests
 from flask import Flask, render_template, abort, request
+
+from MemeEngine.meme_engine import MemeEngine
+
 """
 The project completes the Flask app starter code in app.py. All @TODO tasks listed in the file have been completed.
 

@@ -1,11 +1,16 @@
 import os
 import random
 
+from MemeEngine.meme_engine import MemeEngine
+from QuoteEngine.ingestor import Ingestor
+from QuoteEngine.model import QuoteModel
+
+
 # @TODO Import your Ingestor and MemeEngine classes
 
 
 def generate_meme(path=None, body=None, author=None):
-    """ Generate a meme given an path and a quote """
+    """ Generate a meme given a path and a quote """
     img = None
     quote = None
 
@@ -21,13 +26,15 @@ def generate_meme(path=None, body=None, author=None):
 
     if body is None:
         quote_files = ['./_data/DogQuotes/DogQuotesTXT.txt',
-                       './_data/DogQuotes/DogQuotesDOCX.docx',
-                       './_data/DogQuotes/DogQuotesPDF.pdf',
-                       './_data/DogQuotes/DogQuotesCSV.csv']
+                       # TODO: uncomment
+                       # './_data/DogQuotes/DogQuotesDOCX.docx',
+                       # './_data/DogQuotes/DogQuotesPDF.pdf',
+                       # './_data/DogQuotes/DogQuotesCSV.csv'
+                       ]
         quotes = []
         for f in quote_files:
             quotes.extend(Ingestor.parse(f))
-
+        print("Quotes:", quotes)
         quote = random.choice(quotes)
     else:
         if author is None:
@@ -39,10 +46,28 @@ def generate_meme(path=None, body=None, author=None):
     return path
 
 
+"""
+The project contains a main.py file that uses the ImageCaptioner, DocxIngestor, PDFIngestor, 
+and CSVIngestor methods to generate a random captioned image.
+
+The program must be executable from the command line.
+
+The program takes three OPTIONAL arguments:
+
+A string quote body
+A string quote author
+An image path
+The program returns a path to a generated image.
+If any argument is not defined, a random selection is used.
+"""
+
 if __name__ == "__main__":
-    # @TODO Use ArgumentParser to parse the following CLI arguments
-    # path - path to an image file
-    # body - quote body to add to the image
-    # author - quote author to add to the image
-    args = None
+    import argparse
+
+    parser = argparse.ArgumentParser(description='Generate a motivational meme')
+    parser.add_argument('--path', type=str, help='path to an image file')
+    parser.add_argument('--body', type=str, help='quote body to add to the image')
+    parser.add_argument('--author', type=str, help='quote author to add to the image')
+
+    args = parser.parse_args()
     print(generate_meme(args.path, args.body, args.author))
