@@ -17,29 +17,36 @@ The flask server runs with no errors
 
 # @TODO Import your Ingestor and MemeEngine classes
 
-app = Flask(__name__)
-
-meme = MemeEngine('./static')
+app = Flask(__name__, static_folder='_data')
 
 
 def setup():
     """ Load all resources """
 
     quote_files = ['./_data/DogQuotes/DogQuotesTXT.txt',
-                   './_data/DogQuotes/DogQuotesDOCX.docx',
-                   './_data/DogQuotes/DogQuotesPDF.pdf',
-                   './_data/DogQuotes/DogQuotesCSV.csv']
+                   # './_data/DogQuotes/DogQuotesDOCX.docx',
+                   # './_data/DogQuotes/DogQuotesPDF.pdf',
+                   # './_data/DogQuotes/DogQuotesCSV.csv'
+                   ]
 
     # TODO: Use the Ingestor class to parse all files in the
     # quote_files variable
-    quotes = None
-
+    quotes = []
+    for f in quote_files:
+        from QuoteEngine.ingestor import Ingestor
+        quotes.extend(Ingestor.parse(f))
+    print("Quotes:", quotes)
     images_path = "./_data/photos/dog/"
 
     # TODO: Use the pythons standard library os class to find all
     # images within the images images_path directory
-    imgs = None
-
+    imgs = []
+    for root, dirs, files in os.walk(images_path):
+        # abs_root = root.replace(".", os.getcwd())
+        norm_root = os.path.normpath(root)
+        print("Norm root", norm_root)
+        imgs = [os.path.join(norm_root, name) for name in files]
+    print("Imgs", imgs)
     return quotes, imgs
 
 
@@ -54,9 +61,9 @@ def meme_rand():
     # Use the random python standard library class to:
     # 1. select a random image from imgs array
     # 2. select a random quote from the quotes array
-
-    img = None
-    quote = None
+    meme = MemeEngine('./static')
+    img = random.choice(imgs)
+    quote = random.choice(quotes)
     path = meme.make_meme(img, quote.body, quote.author)
     return render_template('meme.html', path=path)
 

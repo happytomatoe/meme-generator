@@ -20,4 +20,5 @@ class MemeEngine:
         self.memes_path = memes_path
 
     def make_meme(self, img, body, author):
-        pass
+        print("Meme engine", img, body, author)
+        return img
