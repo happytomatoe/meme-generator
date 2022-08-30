@@ -22,11 +22,12 @@ app = Flask(__name__)
 def setup():
     """ Load all resources """
 
-    quote_files = ['./_data/DogQuotes/DogQuotesTXT.txt',
-                   # './_data/DogQuotes/DogQuotesDOCX.docx',
-                   # './_data/DogQuotes/DogQuotesPDF.pdf',
-                   # './_data/DogQuotes/DogQuotesCSV.csv'
-                   ]
+    quote_files = [
+        './_data/DogQuotes/DogQuotesTXT.txt',
+        './_data/DogQuotes/DogQuotesDOCX.docx',
+        './_data/DogQuotes/DogQuotesPDF.pdf',
+        './_data/DogQuotes/DogQuotesCSV.csv'
+    ]
 
     quotes = []
     for f in quote_files:
@@ -36,9 +37,8 @@ def setup():
     images_path = "./_data/photos/dog/"
 
     imgs = []
-    for root, dirs, files in os.walk(images_path):
+    for root, _, files in os.walk(images_path):
         norm_root = os.path.normpath(root)
-        print("Norm root", norm_root)
         imgs = [os.path.join(norm_root, name) for name in files]
     print("Imgs", imgs)
     return quotes, imgs
