@@ -64,9 +64,14 @@ class TxtIngestor(FileBasedIngestorInterface):
     file_extension = ".txt"
 
     def parse(cls, path: str) -> List[QuoteModel]:
+        def create_quote(s: str) -> QuoteModel:
+            str = s.strip("-\n ").encode("ascii", "ignore").decode()
+            l = str.split("-")
+            return QuoteModel(l[0], l[1])
+
         with open(path, encoding='utf-8') as f:
             # TODO: add validatoin
-            return [QuoteModel(l.split("-")[0], l.split("-")[1].strip("-\n ")) for l in f.readlines()]
+            return [create_quote(l) for l in f.readlines()]
 
 
 class Ingestor(IngestorInterface):
@@ -83,5 +88,5 @@ class Ingestor(IngestorInterface):
         for ingestor in cls._ingestors:
             if ingestor.can_ingest(f):
                 return ingestor.parse(f)
-        #     TOOD: add custom class
+        #     TODO: add custom exception class
         raise Exception(f"Cannot find ingestor for {f}")
