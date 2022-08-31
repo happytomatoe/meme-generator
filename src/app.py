@@ -1,7 +1,9 @@
 import random
 import os
-from flask import Flask, render_template, abort, request
+import tempfile
 
+from flask import Flask, render_template, abort, request
+import requests
 from MemeEngine import MemeEngine
 
 """
@@ -17,6 +19,10 @@ The flask server runs with no errors
 # @TODO Import your Ingestor and MemeEngine classes
 
 app = Flask(__name__)
+meme_folder = './static'
+if not os.path.exists(meme_folder):
+    os.makedirs(meme_folder)
+meme = MemeEngine(meme_folder)
 
 
 def setup():
@@ -47,18 +53,9 @@ def setup():
 quotes, imgs = setup()
 
 
-def create_dir_if_not_exists(path: str) -> None:
-    if not os.path.exists(path):
-        os.makedirs(path)
-
-
 @app.route('/')
 def meme_rand():
     """ Generate a random meme """
-
-    meme_folder = './static'
-    create_dir_if_not_exists(meme_folder)
-    meme = MemeEngine(meme_folder)
     img = random.choice(imgs)
     quote = random.choice(quotes)
     path = meme.make_meme(img, quote.body, quote.author)
@@ -81,8 +78,13 @@ def meme_post():
     # 2. Use the meme object to generate a meme using this temp
     #    file and the body and author form paramaters.
     # 3. Remove the temporary saved image.
-
-    path = None
+    image_url = request.form['image_url']
+    img_data = requests.get(image_url).content
+    with tempfile.TemporaryFile() as fp:
+        fp.write(img_data)
+        body = request.form['body']
+        author = request.form['author']
+        path = meme.make_meme(fp, body, author)
 
     return render_template('meme.html', path=path)
 

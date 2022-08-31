@@ -1,5 +1,7 @@
 import os.path
+import typing
 import uuid
+from typing import Union
 
 from PIL import Image
 from PIL import ImageDraw, ImageFont
@@ -27,7 +29,7 @@ class MemeEngine:
     def __init__(self, memes_path: str):
         self.memes_path = memes_path
 
-    def make_meme(self, img, body, author, width=500):
+    def make_meme(self, img: Union[str, typing.IO], body, author, width=500):
         print("Making meme:", body, author)
         im = Image.open(img)
         if im.width > width:

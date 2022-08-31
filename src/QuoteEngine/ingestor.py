@@ -63,11 +63,6 @@ class PdfIngestor(FileBasedIngestorInterface):
     file_extension = ".pdf"
     LINE_FEED = chr(12)
 
-    # TODO implement
-    # The PDFIngestor class utilizes the subprocess module to call the pdftotext(
-    # https://www.xpdfreader.com/pdftotext-man.html) CLI utility—creating a pipeline
-    # that converts PDFs to text and then ingests the text.
-    # The class handles deleting temporary files.
     def parse(cls, path: str) -> List[QuoteModel]:
         import subprocess
         new_path = path[:path.index(cls.file_extension)] + "Pdf.txt"
@@ -81,7 +76,7 @@ class PdfIngestor(FileBasedIngestorInterface):
 
 def create_quote_model(s: str) -> Optional[QuoteModel]:
     # Add validation
-    str = s.strip("-\n ")
+    str = s.strip("-\n ").replace("\"", "")
     str = str.encode("ascii", "ignore").decode()
     if len(str) == 0:
         return None
