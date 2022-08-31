@@ -72,21 +72,24 @@ def meme_form():
 def meme_post():
     """ Create a user defined meme """
 
-    # @TODO:
-    # 1. Use requests to save the image from the image_url
-    #    form param to a temp local file.
-    # 2. Use the meme object to generate a meme using this temp
-    #    file and the body and author form paramaters.
-    # 3. Remove the temporary saved image.
     image_url = request.form['image_url']
-    img_data = requests.get(image_url).content
-    with tempfile.TemporaryFile() as fp:
-        fp.write(img_data)
-        body = request.form['body']
-        author = request.form['author']
-        path = meme.make_meme(fp, body, author)
+    response = requests.get(image_url, timeout=10)  # 10 seconds
+    img_data = response.content
+    print("Img content", len(img_data))
+    print("response", response)
+    if response.status_code == 200:
+        with tempfile.NamedTemporaryFile() as fp:
+            fp.write(img_data)
+            fp.flush()
+            fp.seek(0)
+            body = request.form['body']
+            author = request.form['author']
+            path = meme.make_meme(fp, body, author)
 
-    return render_template('meme.html', path=path)
+        return render_template('meme.html', path=path)
+    else:
+        # add abort function
+        abort(400, f"When trying to download specified image we got {response.status_code}")
 
 
 if __name__ == "__main__":

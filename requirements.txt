@@ -3,4 +3,3 @@ Flask
 pandas
 python-docx
 requests
-multipledispatch
