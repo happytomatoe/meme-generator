@@ -16,8 +16,6 @@ app.py uses the requests package to fetch an image from a user submitted URL.
 The flask server runs with no errors
 """
 
-# @TODO Import your Ingestor and MemeEngine classes
-
 app = Flask(__name__)
 meme_folder = './static'
 if not os.path.exists(meme_folder):
@@ -75,8 +73,6 @@ def meme_post():
     image_url = request.form['image_url']
     response = requests.get(image_url, timeout=10)  # 10 seconds
     img_data = response.content
-    print("Img content", len(img_data))
-    print("response", response)
     if response.status_code == 200:
         with tempfile.NamedTemporaryFile() as fp:
             fp.write(img_data)
@@ -88,7 +84,6 @@ def meme_post():
 
         return render_template('meme.html', path=path)
     else:
-        # add abort function
         abort(400, f"When trying to download specified image we got {response.status_code}")
 
 
