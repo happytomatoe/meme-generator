@@ -60,18 +60,6 @@ make app
 ```
 
 ## Brief description of the roles and responsibilities of all
-
-submodules including dependencies and examples of how to use
-the module
-Modules:
-
-- quote_engine module
-  Responsible for parsing/ingesting quotes. Example of usage:
-
-```python
- Ingestor.parse(quotes_file_path)
-```
-
 - meme_engine module:
   Responsible for creating memes. Example of usage:
 
@@ -81,6 +69,14 @@ meme_engine = MemeEngine(OUTPUT_FOLDER_PATH)
 # Create meme using image, quote body and author
 path = meme_engine.make_meme(img, quote.body, quote.author)
 ```
+
+- quote_engine module
+  Responsible for parsing/ingesting quotes. Example of usage:
+
+```python
+ Ingestor.parse(quotes_file_path)
+```
+
 
 Extension:
 
