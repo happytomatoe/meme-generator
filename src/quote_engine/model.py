@@ -2,7 +2,10 @@ from dataclasses import dataclass
 
 
 @dataclass
-class QuoteModel:
+class Quote:
+    """
+    Contains information about a quote
+    """
     body: str
     author: str
 

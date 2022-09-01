@@ -53,6 +53,10 @@ app: venv
 doc: venv
 	$(VENV_ACTIVATE) && cd docs; make html
 
+pydoc:
+	${PYTHON_VENV}  -m pip install pydocstyle
+	pydocstyle >pydoc.txt
+
 clean:
 	rm -rf venv
 	find -iname "*.pyc" -delete
