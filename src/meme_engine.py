@@ -1,3 +1,5 @@
+"""Provides functionality for manipulating memes."""
+
 import os.path
 import uuid
 
@@ -8,12 +10,17 @@ FONTS_PATH = "fonts/impact.ttf"
 
 
 class MemeEngine:
+    """Provides functionality for manipulating memes."""
 
-    def __init__(self, output_dir: str):
+    def __init__(self, output_dir: str, font_path=FONTS_PATH, font_size: int = 30):
         """
         Create Meme Engine
+
         :param output_dir: location where to save transformed images
+        :param font_path: location where to the font file
+        :param font_size: size of the font
         """
+        self.font = ImageFont.truetype(font_path, font_size)
         self.output_dir = output_dir
 
     def make_meme(self, image_source, body, author, max_width=500):
@@ -36,13 +43,12 @@ class MemeEngine:
             hsize = int((float(image.size[1]) * float(ratio)))
             image = image.resize((max_width, hsize), Image.ANTIALIAS)
 
-        fnt = ImageFont.truetype(FONTS_PATH, 30)
         # make a blank image for the text, initialized to transparent text color
         txt = Image.new("RGBA", image.size, (255, 255, 255, 0))
 
         d = ImageDraw.Draw(txt)
 
-        MemeEngine.__draw_text(d, 20, 60, body + "\n- " + author, font=fnt, fill="white")
+        MemeEngine.__draw_text(d, 20, 60, body + "\n- " + author, font=self.font, fill="white")
         out = Image.alpha_composite(image.convert(mode="RGBA"), txt)
         path = os.path.join(self.output_dir, str(uuid.uuid4()) + ".png")
         out.save(path, "PNG")

@@ -15,9 +15,8 @@ import tempfile
 import requests
 from flask import Flask, render_template, abort, request
 
-from meme_engine import MemeEngine
-from quote_engine import Ingestor
 from helper import ingest_quotes, find_images_in_folder
+from meme_engine import MemeEngine
 
 app = Flask(__name__)
 MEME_FOLDER = './static'

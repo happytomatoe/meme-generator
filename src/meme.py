@@ -13,7 +13,7 @@ import argparse
 import os
 import random
 
-from meme_engine.engine import MemeEngine
+from meme_engine import MemeEngine
 from quote_engine.model import Quote
 from helper import find_images_in_folder, ingest_quotes
 
