@@ -8,24 +8,27 @@ Generate a motivational meme
    requirements.txt).<br>
 2) To parse pdf this project uses [Xpdf library](https://www.xpdfreader.com/download.html)
 
-Xpdf may not be installed on your local machine. If this is the case, you can install it using the open source
-[XpdfReader utility](https://www.xpdfreader.com/pdftotext-man.html). Here are some tips for installing xpdf on different operating systems:
+   Xpdf may not be installed on your local machine. If this is the case, you can install it using the open source
+   [XpdfReader utility](https://www.xpdfreader.com/pdftotext-man.html). Here are some tips for installing xpdf on
+   different operating systems:
 
-- For **Mac**, we suggest that you use Homebrew:
-    - If you don't already have it, install [use the command provided here to install Homebrew](https://brew.sh/). After
-      installing, read the last few lines that it outputs in your CLI—it may provide additional commands that you can
-      run to add Homebrew to PATH.
-    - Once Homebrew is installed, simply run <code>brew install xpdf</code> in the terminal.
-- For **Windows**, you'll need to:
-  - Download the Windows command-line tools from the xpdf website.
-  - Unzip the files in a location of your choice.
-  - Get the full file path to the folder named bin32 (if you have a 32-bit machine) or bin64 (if you have a 64-bit
-  machine).
-  - Add this path to the Path environment variable. This will allow you to use the xpdf command from the command line. If
-  you've never done this before, check out this Stack Overflow post on how to add a folder to the Path environment
-  variable.
-- For **Linux**, you can use Homebrew (as shown above for Mac) or apt-get to install (simply enter <code>sudo apt-get install -y
-  xpdf</code> in your command line interface).
+   - For **Mac**, we suggest that you use Homebrew:
+       - If you don't already have it, install [use the command provided here to install Homebrew](https://brew.sh/). After
+         installing, read the last few lines that it outputs in your CLI—it may provide additional commands that you can
+         run to add Homebrew to PATH.
+       - Once Homebrew is installed, simply run <code>brew install xpdf</code> in the terminal.
+   - For **Windows**, you'll need to:
+       - Download the Windows command-line tools from the xpdf website.
+       - Unzip the files in a location of your choice.
+       - Get the full file path to the folder named bin32 (if you have a 32-bit machine) or bin64 (if you have a 64-bit
+         machine).
+       - Add this path to the Path environment variable. This will allow you to use the xpdf command from the command line.
+         If
+         you've never done this before, check out this Stack Overflow post on how to add a folder to the Path environment
+         variable.
+   - For **Linux**, you can use Homebrew (as shown above for Mac) or apt-get to install (simply enter <code>sudo apt-get
+     install -y
+     xpdf</code> in your command line interface).
 
 3) How to run:
 
@@ -60,13 +63,24 @@ make app
 
 submodules including dependencies and examples of how to use
 the module
+Modules:
 
-TODO:
+- quote_engine module
+  Responsible for parsing/ingesting quotes. Example of usage:
 
-1) Create a Command-Line Interface tool
-2) Complete the Flask app
-3) Add requirements.txt
-4) Add .gitignore
+```python
+ Ingestor.parse(quotes_file_path)
+```
+
+- meme_engine module:
+  Responsible for creating memes. Example of usage:
+
+```python
+# Create class with output folder which is used to save transformed images
+meme_engine = MemeEngine(OUTPUT_FOLDER_PATH)
+# Create meme using image, quote body and author
+path = meme_engine.make_meme(img, quote.body, quote.author)
+```
 
 Extension:
 
