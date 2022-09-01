@@ -14,7 +14,7 @@ import os
 import random
 
 from meme_engine import MemeEngine
-from quote_engine.model import Quote
+from quote_engine.model import QuoteModel
 from helper import find_images_in_folder, ingest_quotes
 
 MEMES_FOLDER = './tmp'
@@ -28,6 +28,9 @@ def generate_meme(path=None, body=None, author=None):
     if path is None:
         images_folder = "./_data/photos/dog/"
         imgs = find_images_in_folder(images_folder)
+        print(imgs)
+        if imgs is None or len(imgs) == 0:
+            raise Exception("Could not find images in folder", images_folder)
         img = random.choice(imgs)
     else:
         img = path[0]
@@ -45,14 +48,13 @@ def generate_meme(path=None, body=None, author=None):
     else:
         if author is None:
             raise Exception('Author Required if Body is Used')
-        quote = Quote(body, author)
+        quote = QuoteModel(body, author)
 
     path = meme_engine.make_meme(img, quote.body, quote.author)
     return path
 
 
 if __name__ == "__main__":
-
     parser = argparse.ArgumentParser(
         description='Generate a motivational meme')
     parser.add_argument('--path', type=str, help='path to an image file')
@@ -66,4 +68,6 @@ if __name__ == "__main__":
         help='quote author to add to the image')
 
     args = parser.parse_args()
-    print(generate_meme(args.path, args.body, args.author))
+    meme_path = generate_meme(args.path, args.body, args.author)
+    meme_path = meme_path.replace(".", os.getcwd(), 1)
+    print(meme_path)

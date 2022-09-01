@@ -3,7 +3,7 @@ import os
 from typing import List
 
 from quote_engine import Ingestor
-from quote_engine.model import Quote
+from quote_engine.model import QuoteModel
 
 
 def find_images_in_folder(images_folder: str) -> List[str]:
@@ -20,7 +20,7 @@ def find_images_in_folder(images_folder: str) -> List[str]:
     return imgs
 
 
-def ingest_quotes(quote_file_paths: List[str]) -> List[Quote]:
+def ingest_quotes(quote_file_paths: List[str]) -> List[QuoteModel]:
     """Ingest quotes from the given files.
 
     :param quote_file_paths: list of files with quotes

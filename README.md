@@ -1,22 +1,82 @@
-1) Overview 
-2) Instructions for setup and running project
-3) Brief description of the roles and responsibilities of all
-submodules including dependencies and examples of how to use 
+Generate a motivational meme
+
+## Instructions for setup and running project
+
+1) Install dependencies:
+   Easier way - make venv.<br>
+   Harder way - replicate what is done in the Makefile(install python, virtual environment and dependencies from
+   requirements.txt).<br>
+   This program has web interface and command line interface.<br>
+2) To parse pdf this project uses [Xpdf library](https://www.xpdfreader.com/download.html)
+
+Xpdf may not be installed on your local machine. If this is the case, you can install it using the open source
+[XpdfReader utility](https://www.xpdfreader.com/pdftotext-man.html). Here are some tips for installing xpdf on different operating systems:
+
+- For **Mac**, we suggest that you use Homebrew:
+    - If you don't already have it, install [use the command provided here to install Homebrew](https://brew.sh/). After
+      installing, read the last few lines that it outputs in your CLI—it may provide additional commands that you can
+      run to add Homebrew to PATH.
+    - Once Homebrew is installed, simply run <code>brew install xpdf</code> in the terminal.
+- For **Windows**, you'll need to:
+  - Download the Windows command-line tools from the xpdf website.
+  - Unzip the files in a location of your choice.
+  - Get the full file path to the folder named bin32 (if you have a 32-bit machine) or bin64 (if you have a 64-bit
+  machine).
+  - Add this path to the Path environment variable. This will allow you to use the xpdf command from the command line. If
+  you've never done this before, check out this Stack Overflow post on how to add a folder to the Path environment
+  variable.
+- For **Linux**, you can use Homebrew (as shown above for Mac) or apt-get to install (simply enter <code>sudo apt-get install -y
+  xpdf</code> in your command line interface).
+
+3) How to run:
+
+- as a cmd application
+
+```bash
+$ python src/meme.py
+usage: meme.py [-h] [--path PATH] [--body BODY] [--author AUTHOR]
+
+Generate a motivational meme
+
+options:
+  -h, --help       show this help message and exit
+  --path PATH      path to an image file
+  --body BODY      quote body to add to the image
+  --author AUTHOR  quote author to add to the image
+```
+
+- as a web application:
+
+```bash
+python src/app.py
+```
+
+or
+
+```bash
+make app
+```
+
+## Brief description of the roles and responsibilities of all
+
+submodules including dependencies and examples of how to use
 the module
 
 TODO:
+
 1) Create a Command-Line Interface tool
 2) Complete the Flask app
 3) Add requirements.txt
 4) Add .gitignore
 
-
 Extension:
+
 1) Make it Unique. Add your own content (images and quotes).
 2) Unit test everything. Define unit tests to ensure your code functions as intended.
 3) Deploy as a Webapp. Deploy the flask server to Heroku so that it can be accessed publicly.
 4) Extend your system. Be creative by using your meme generator in unique ways – ideas include:
 5) Sharing the generated image with an email
-6) Using a 3rd party API to dynamically add more information. You can check out a bunch of 3rd party APIs here. Some possibilities are:
-Weather, traffic, locations
+6) Using a 3rd party API to dynamically add more information. You can check out a bunch of 3rd party APIs here. Some
+   possibilities are:
+   Weather, traffic, locations
 7) Use Amazon Rekognition to identify the image content and define rules to choose the quote category

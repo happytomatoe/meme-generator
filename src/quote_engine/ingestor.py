@@ -7,7 +7,7 @@ import pandas as pd
 from docx import Document
 
 from quote_engine.helper import create_quote
-from quote_engine.model import Quote
+from quote_engine.model import QuoteModel
 
 
 class IngestorInterface(ABC):
@@ -21,7 +21,7 @@ class IngestorInterface(ABC):
         """
 
     @abstractmethod
-    def parse(cls, path: str) -> List[Quote]:
+    def parse(cls, path: str) -> List[QuoteModel]:
         """Ingest list of quotes from using provided path.
 
         :param path: path to the resource with quotes
@@ -51,14 +51,14 @@ class CsvIngestor(FileBasedIngestorInterface):
 
     file_extension = ".csv"
 
-    def parse(cls, path: str) -> List[Quote]:
+    def parse(cls, path: str) -> List[QuoteModel]:
         """Parse a csv file.
 
         :param path: path to a csv file
         :return: list of quotes
         """
         df = pd.read_csv(path)
-        return [(Quote(author=row.author, body=row.body))
+        return [(QuoteModel(author=row.author, body=row.body))
                 for index, row in df.iterrows()]
 
 
@@ -67,7 +67,7 @@ class DocxIngestor(FileBasedIngestorInterface):
 
     file_extension = ".docx"
 
-    def parse(cls, path: str) -> List[Quote]:
+    def parse(cls, path: str) -> List[QuoteModel]:
         """Ingest docx file.
 
         :param path: path to a docx file
@@ -84,16 +84,16 @@ class TxtIngestor(FileBasedIngestorInterface):
 
     file_extension = ".txt"
 
-    def parse(cls, path: str) -> List[Quote]:
+    def parse(cls, path: str) -> List[QuoteModel]:
         """
         Parse a txt file with quotes.
 
         :param path: path to a txt file
         :return: list of quotes
         """
-        with open(path, encoding='utf-8') as f:
+        with open(path, encoding='utf-8') as file:
             # TODO: add validation
-            res = [create_quote(line) for line in f.readlines()]
+            res = [create_quote(line) for line in file.readlines()]
             return [r for r in res if r is not None]
 
 
@@ -104,7 +104,7 @@ class PdfIngestor(FileBasedIngestorInterface):
     LINE_FEED = chr(12)
     TXT_FILE_SUFFIX = "Pdf.txt"
 
-    def parse(cls, path: str) -> List[Quote]:
+    def parse(cls, path: str) -> List[QuoteModel]:
         """Ingest list of quotes from pdf file.
 
         :param path: path to the pdf file
@@ -137,7 +137,7 @@ class Ingestor(IngestorInterface):
         return False
 
     @classmethod
-    def parse(cls, path: str) -> List[Quote]:
+    def parse(cls, path: str) -> List[QuoteModel]:
         """
         Ingest list of quotes from using provided path.
 

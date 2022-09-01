@@ -47,8 +47,14 @@ lint: venv
 	${PYTHON_VENV} -m pylint src/
 	${PYTHON_VENV} -m mypy
 
-app: venv
-	cd src&& export FLASK_APP=app.py&&export FLASK_ENV=development&&flask run
+app-web: venv
+	cd src&&python app.py
+
+app-web-dev: venv
+	cd src&&export FLASK_APP=app.py&&export FLASK_ENV=development&&flask run
+
+app-cmd: venv
+	cd src && python meme.py
 
 doc: venv
 	$(VENV_ACTIVATE) && cd docs; make html

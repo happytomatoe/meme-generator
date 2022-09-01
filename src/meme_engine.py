@@ -6,8 +6,6 @@ import uuid
 from PIL import Image
 from PIL import ImageDraw, ImageFont
 
-FONTS_PATH = "fonts/impact.ttf"
-
 
 class MemeEngine:
     """Provides functionality for manipulating memes."""
@@ -15,7 +13,7 @@ class MemeEngine:
     def __init__(
             self,
             output_dir: str,
-            font_path=FONTS_PATH,
+            font_path="fonts/impact.ttf",
             font_size: int = 30):
         """Create Meme Engine.
 
@@ -49,9 +47,9 @@ class MemeEngine:
         # color
         txt = Image.new("RGBA", image.size, (255, 255, 255, 0))
 
-        d = ImageDraw.Draw(txt)
+        draw_context = ImageDraw.Draw(txt)
 
-        MemeEngine.__draw_text(d, 20, 60, body + "\n- " + author,
+        MemeEngine.__draw_text(draw_context, 20, 60, body + "\n- " + author,
                                font=self.font, fill="white")
         out = Image.alpha_composite(image.convert(mode="RGBA"), txt)
         path = os.path.join(self.output_dir, str(uuid.uuid4()) + ".png")
@@ -61,7 +59,7 @@ class MemeEngine:
 
     @staticmethod
     def __draw_text(
-            draw: ImageDraw,
+            draw_context: ImageDraw,
             x: float,
             y: float,
             text: str,
@@ -79,28 +77,28 @@ class MemeEngine:
         :param: border_color: color of the border
         :param: border_thickness: thickness of the border
         """
-        draw.multiline_text(
+        draw_context.multiline_text(
             (x - border_thickness,
              y - border_thickness),
             text,
             font=font,
             fill=border_color)
-        draw.multiline_text(
+        draw_context.multiline_text(
             (x + border_thickness,
              y - border_thickness),
             text,
             font=font,
             fill=border_color)
-        draw.multiline_text(
+        draw_context.multiline_text(
             (x - border_thickness,
              y + border_thickness),
             text,
             font=font,
             fill=border_color)
-        draw.multiline_text(
+        draw_context.multiline_text(
             (x + border_thickness,
              y + border_thickness),
             text,
             font=font,
             fill=border_color)
-        draw.multiline_text((x, y), text, font=font, fill=fill)
+        draw_context.multiline_text((x, y), text, font=font, fill=fill)

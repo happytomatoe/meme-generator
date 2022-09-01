@@ -4,5 +4,5 @@ Pillow==9.2.0
 python-docx==0.8.11
 requests==2.28.1
 
-autopep8
+pydocstyle
 pylint

@@ -1,10 +1,10 @@
 """Contains helper methods."""
 from typing import Optional
 
-from quote_engine.model import Quote
+from quote_engine.model import QuoteModel
 
 
-def create_quote(quote_string: str) -> Optional[Quote]:
+def create_quote(quote_string: str) -> Optional[QuoteModel]:
     """Create an optional Quote.
 
     :param quote_string: The quote string
@@ -14,7 +14,7 @@ def create_quote(quote_string: str) -> Optional[Quote]:
     if len(quote_string) == 0:
         return None
     splitted_quote = quote_string.split("-")
-    return Quote(splitted_quote[0], splitted_quote[1])
+    return QuoteModel(splitted_quote[0], splitted_quote[1])
 
 
 def __clean(s: str) -> str:
