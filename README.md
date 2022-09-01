@@ -59,7 +59,7 @@ or
 make app
 ```
 
-## Brief description of the roles and responsibilities of all
+## Modules
 - meme_engine module:
   Responsible for creating memes. Example of usage:
 

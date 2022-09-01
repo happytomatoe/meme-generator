@@ -7,7 +7,7 @@ import pandas as pd
 from docx import Document
 
 from quote_engine.helper import create_quote
-from quote_engine.model import QuoteModel
+from quote_engine.models import QuoteModel
 
 
 class IngestorInterface(ABC):
@@ -119,7 +119,8 @@ class PdfIngestor(FileBasedIngestorInterface):
 
 class IngestorNotFoundException(Exception):
     """Raised when ingestor is not found."""
-
+# TODO: add exception for *Invalid File, Invalid Text Input (e.g. too long)
+# Extension: Use os.walk to automatically discover ingestible files in a directory
 
 class Ingestor(IngestorInterface):
     """Ingest quotes."""

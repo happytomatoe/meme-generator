@@ -14,7 +14,7 @@ import os
 import random
 
 from meme_engine import MemeEngine
-from quote_engine.model import QuoteModel
+from quote_engine.models import QuoteModel
 from helper import find_images_in_folder, ingest_quotes
 
 MEMES_FOLDER = './tmp'

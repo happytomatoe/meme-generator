@@ -61,7 +61,7 @@ doc: venv
 
 pydoc:
 	${PYTHON_VENV}  -m pip install pydocstyle
-	pydocstyle src/>pydoc.txt
+	pydocstyle src/
 
 freeze:
 	${PYTHON_VENV}  -m pip freeze > requirements.txt

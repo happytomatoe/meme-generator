@@ -14,15 +14,19 @@ class MemeEngine:
             self,
             output_dir: str,
             font_path="fonts/impact.ttf",
-            font_size: int = 30):
+            font_size: int = 30,
+            transformed_image_format="GIF"):
         """Create Meme Engine.
 
         :param output_dir: location where to save transformed images
         :param font_path: location where to the font file
         :param font_size: size of the font
+        :param transformed_image_format: file format of the transformed image. For possible values please refer to
+        https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html#fully-supported-formats
         """
         self.font = ImageFont.truetype(font_path, font_size)
         self.output_dir = output_dir
+        self.transformed_image_format = transformed_image_format
 
     def make_meme(self, image_source, body, author, max_width=500):
         """Create meme.
@@ -43,17 +47,11 @@ class MemeEngine:
             hsize = int((float(image.size[1]) * float(ratio)))
             image = image.resize((max_width, hsize), Image.ANTIALIAS)
 
-        # make a blank image for the text, initialized to transparent text
-        # color
-        txt = Image.new("RGBA", image.size, (255, 255, 255, 0))
-
-        draw_context = ImageDraw.Draw(txt)
-
+        draw_context = ImageDraw.Draw(image)
         MemeEngine.__draw_text(draw_context, 20, 60, body + "\n- " + author,
                                font=self.font, fill="white")
-        out = Image.alpha_composite(image.convert(mode="RGBA"), txt)
-        path = os.path.join(self.output_dir, str(uuid.uuid4()) + ".png")
-        out.save(path, "PNG")
+        path = os.path.join(self.output_dir, str(uuid.uuid4()) + "." + self.transformed_image_format.lower())
+        image.save(path, self.transformed_image_format)
 
         return path
 

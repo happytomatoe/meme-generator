@@ -1,4 +1,4 @@
-"""Contains models."""
+"""Contains a model for a quote."""
 
 from dataclasses import dataclass
 

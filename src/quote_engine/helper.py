@@ -1,7 +1,7 @@
 """Contains helper methods."""
 from typing import Optional
 
-from quote_engine.model import QuoteModel
+from quote_engine.models import QuoteModel
 
 
 def create_quote(quote_string: str) -> Optional[QuoteModel]:

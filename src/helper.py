@@ -3,7 +3,7 @@ import os
 from typing import List
 
 from quote_engine import Ingestor
-from quote_engine.model import QuoteModel
+from quote_engine.models import QuoteModel
 
 
 def find_images_in_folder(images_folder: str) -> List[str]:
