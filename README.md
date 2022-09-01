@@ -1,5 +1,5 @@
-Generate a motivational meme
-![Web applicatoin overview](docs/meme-generator.gif)
+Generate a motivational meme<br>
+![Web applicatoin overview](docs/meme-generator2.gif)
 ## Instructions for setup and running project
 
 1) Install dependencies:<br>
