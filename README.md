@@ -2,11 +2,10 @@ Generate a motivational meme
 
 ## Instructions for setup and running project
 
-1) Install dependencies:
-   Easier way - make venv.<br>
+1) Install dependencies:<br>
+   Easier way - <code>make venv</code>.<br>
    Harder way - replicate what is done in the Makefile(install python, virtual environment and dependencies from
    requirements.txt).<br>
-   This program has web interface and command line interface.<br>
 2) To parse pdf this project uses [Xpdf library](https://www.xpdfreader.com/download.html)
 
 Xpdf may not be installed on your local machine. If this is the case, you can install it using the open source
