@@ -22,7 +22,7 @@ def find_images_in_folder(images_folder: str) -> List[str]:
 
 def ingest_quotes(quote_file_paths: List[str]) -> List[Quote]:
     """Ingest quotes from the given files.
-    
+
     :param quote_file_paths: list of files with quotes
     :return: list of quotes
     """

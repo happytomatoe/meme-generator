@@ -58,7 +58,8 @@ class CsvIngestor(FileBasedIngestorInterface):
         :return: list of quotes
         """
         df = pd.read_csv(path)
-        return [(Quote(author=row.author, body=row.body)) for index, row in df.iterrows()]
+        return [(Quote(author=row.author, body=row.body))
+                for index, row in df.iterrows()]
 
 
 class DocxIngestor(FileBasedIngestorInterface):

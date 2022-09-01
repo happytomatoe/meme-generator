@@ -12,9 +12,12 @@ FONTS_PATH = "fonts/impact.ttf"
 class MemeEngine:
     """Provides functionality for manipulating memes."""
 
-    def __init__(self, output_dir: str, font_path=FONTS_PATH, font_size: int = 30):
-        """
-        Create Meme Engine
+    def __init__(
+            self,
+            output_dir: str,
+            font_path=FONTS_PATH,
+            font_size: int = 30):
+        """Create Meme Engine.
 
         :param output_dir: location where to save transformed images
         :param font_path: location where to the font file
@@ -24,12 +27,11 @@ class MemeEngine:
         self.output_dir = output_dir
 
     def make_meme(self, image_source, body, author, max_width=500):
-        """
-        Create meme
+        """Create meme.
 
         :param image_source: A filename (string), pathlib.Path object or a file object.
         The file object must implement ``file.read``,
-       ``file.seek``, and ``file.tell`` methods,
+        ``file.seek``, and ``file.tell`` methods,
         and be opened in binary mode.
 
         :param body: quote body
@@ -43,12 +45,14 @@ class MemeEngine:
             hsize = int((float(image.size[1]) * float(ratio)))
             image = image.resize((max_width, hsize), Image.ANTIALIAS)
 
-        # make a blank image for the text, initialized to transparent text color
+        # make a blank image for the text, initialized to transparent text
+        # color
         txt = Image.new("RGBA", image.size, (255, 255, 255, 0))
 
         d = ImageDraw.Draw(txt)
 
-        MemeEngine.__draw_text(d, 20, 60, body + "\n- " + author, font=self.font, fill="white")
+        MemeEngine.__draw_text(d, 20, 60, body + "\n- " + author,
+                               font=self.font, fill="white")
         out = Image.alpha_composite(image.convert(mode="RGBA"), txt)
         path = os.path.join(self.output_dir, str(uuid.uuid4()) + ".png")
         out.save(path, "PNG")
@@ -56,10 +60,16 @@ class MemeEngine:
         return path
 
     @staticmethod
-    def __draw_text(draw: ImageDraw, x: float, y: float, text: str, font: ImageFont, fill, border_color='black',
-                    border_thickness=1):
-        """
-        Draw multiline text with border
+    def __draw_text(
+            draw: ImageDraw,
+            x: float,
+            y: float,
+            text: str,
+            font: ImageFont,
+            fill,
+            border_color='black',
+            border_thickness=1):
+        """Draw multiline text with border.
 
         :param: draw: draw context used to draw text
         :param: x: x coordinate of the left top corner of the text
@@ -69,8 +79,28 @@ class MemeEngine:
         :param: border_color: color of the border
         :param: border_thickness: thickness of the border
         """
-        draw.multiline_text((x - border_thickness, y - border_thickness), text, font=font, fill=border_color)
-        draw.multiline_text((x + border_thickness, y - border_thickness), text, font=font, fill=border_color)
-        draw.multiline_text((x - border_thickness, y + border_thickness), text, font=font, fill=border_color)
-        draw.multiline_text((x + border_thickness, y + border_thickness), text, font=font, fill=border_color)
+        draw.multiline_text(
+            (x - border_thickness,
+             y - border_thickness),
+            text,
+            font=font,
+            fill=border_color)
+        draw.multiline_text(
+            (x + border_thickness,
+             y - border_thickness),
+            text,
+            font=font,
+            fill=border_color)
+        draw.multiline_text(
+            (x - border_thickness,
+             y + border_thickness),
+            text,
+            font=font,
+            fill=border_color)
+        draw.multiline_text(
+            (x + border_thickness,
+             y + border_thickness),
+            text,
+            font=font,
+            fill=border_color)
         draw.multiline_text((x, y), text, font=font, fill=fill)

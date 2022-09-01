@@ -44,7 +44,6 @@ def setup():
     return quotes, imgs
 
 
-
 quotes, imgs = setup()
 
 
@@ -79,7 +78,9 @@ def meme_post():
             path = meme.make_meme(temp_file, body, author)
 
         return render_template('meme.html', path=path)
-    abort(400, f"When trying to download specified image we got {response.status_code}")
+    abort(
+        400,
+        f"When trying to download specified image we got {response.status_code}")
 
 
 if __name__ == "__main__":

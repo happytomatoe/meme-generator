@@ -1,4 +1,4 @@
-"""Contains models"""
+"""Contains models."""
 
 from dataclasses import dataclass
 
@@ -6,6 +6,7 @@ from dataclasses import dataclass
 @dataclass
 class Quote:
     """Contains information about a quote."""
+
     body: str
     author: str
 
