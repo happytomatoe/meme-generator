@@ -1,6 +1,6 @@
 # Meme Generator
-![Web application overview](docs/meme-generator.gif)
-Web application provides functionality to generate random meme and also has an option to create custom meme.
+![Web application overview](docs/meme-generator.gif)<br>
+Web application provides functionality to generate a random meme and also has an option to create custom meme.
 
 ## Instructions for setup and running project
 
