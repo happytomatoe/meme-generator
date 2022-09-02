@@ -123,11 +123,13 @@ class PdfIngestor(FileBasedIngestorInterface):
         if not os.path.isfile(path):
             raise FileNotFoundError("Cannot find file " + path)
         res = []
-        new_path = path[: path.index(cls.file_extension)] + str(uuid.uuid4()) + ".txt"
+        new_path = (path[:path.index(cls.file_extension)]
+                    + str(uuid.uuid4()) + ".txt")
         subprocess.run(["pdftotext", "-layout", path, new_path], check=True)
         with open(new_path, encoding="utf-8") as file:
             res = [
-                create_quote(line) for line in file.readlines() if line != cls.LINE_FEED
+                create_quote(line) for line in file.readlines()
+                if line != cls.LINE_FEED
             ]
             res = [r for r in res if r is not None]
         os.remove(new_path)

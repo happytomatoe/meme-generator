@@ -1,13 +1,13 @@
 """
 The project completes the Flask app starter code in app.py.
 
-app.py uses the Quote Engine module and Meme Generator modules to generate a random captioned image.
+app.py uses the Quote Engine module and
+Meme Generator modules to generate a random captioned image.
 
 app.py uses the requests package to fetch an image from a user submitted URL.
 
 The flask server runs with no errors
 """
-
 import os
 import random
 import tempfile
@@ -16,7 +16,7 @@ import requests
 from flask import Flask, render_template, abort, request
 
 from helper import ingest_quotes, find_images_in_folder
-from meme_engine import MemeEngine
+from meme_engine import MemeEngine, QuoteTooLongException
 
 app = Flask(__name__)
 MEME_FOLDER = "./static"
@@ -72,10 +72,14 @@ def meme_post():
             temp_file.seek(0)
             body = request.form["body"]
             author = request.form["author"]
-            path = meme.make_meme(temp_file, body, author)
+            try:
+                path = meme.make_meme(temp_file, body, author)
+            except QuoteTooLongException as e:
+                abort(422, str(e))
 
         return render_template("meme.html", path=path)
-    abort(400, f"When trying to download specified image we got {response.status_code}")
+    abort(422, f"When trying to download "
+               f"specified image we got {response.status_code}")
 
 
 if __name__ == "__main__":

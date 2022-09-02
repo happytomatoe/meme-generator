@@ -43,10 +43,6 @@ venv: create-venv requirements.txt
 test: venv
 	${PYTHON_VENV} -m pytest
 
-lint: venv
-	${PYTHON_VENV} -m pylint src/
-	${PYTHON_VENV} -m mypy
-
 app-web: venv
 	cd src&&python app.py
 
@@ -59,9 +55,9 @@ app-cmd: venv
 doc: venv
 	$(VENV_ACTIVATE) && cd docs; make html
 
-pydoc:
-	${PYTHON_VENV}  -m pip install pydocstyle
-	pydocstyle src/
+lint: venv
+	${PYTHON_VENV} -m pydocstyle src/
+	${PYTHON_VENV} -m pycodestyle src/
 
 freeze:
 	${PYTHON_VENV}  -m pip freeze > requirements.txt

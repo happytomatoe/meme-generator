@@ -53,12 +53,17 @@ def generate_meme(path=None, body=None, author=None):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Generate a motivational meme. "
-                                                 "The script returns a path to a generated image. "
-                                                 "If any argument is not defined, a random selection is used.")
-    parser.add_argument("--path", type=str, help="path to an image file")
-    parser.add_argument("--body", type=str, help="quote body to add to the image")
-    parser.add_argument("--author", type=str, help="quote author to add to the image")
+    parser = argparse.ArgumentParser(
+        description="Generate a motivational meme. "
+                    "The script returns a path to a generated image. "
+                    "If any argument is not defined,"
+                    " a random selection is used.")
+    parser.add_argument("--path", type=str,
+                        help="path to an image file")
+    parser.add_argument("--body", type=str,
+                        help="quote body to add to the image")
+    parser.add_argument("--author", type=str,
+                        help="quote author to add to the image")
 
     args = parser.parse_args()
     meme_path = generate_meme(args.path, args.body, args.author)
