@@ -18,7 +18,7 @@
          run to add Homebrew to PATH.
        - Once Homebrew is installed, simply run <code>brew install xpdf</code> in the terminal.
    - For **Windows**, you'll need to:
-       - Download the Windows command-line tools from the xpdf website.
+       - [Download the Windows command-line tools from the xpdf website.](https://www.xpdfreader.com/download.html)
        - Unzip the files in a location of your choice.
        - Get the full file path to the folder named bin32 (if you have a 32-bit machine) or bin64 (if you have a 64-bit
          machine).
@@ -60,8 +60,8 @@ make app
 ```
 
 ## Modules
-- meme_engine module:
-  Responsible for creating memes. Example of usage:
+- meme_engine - responsible for creating memes.<br>
+  Example of usage:
 
 ```python
 # Create class with output folder which is used to save transformed images
@@ -70,8 +70,8 @@ meme_engine = MemeEngine(OUTPUT_FOLDER_PATH)
 path = meme_engine.make_meme(img, quote.body, quote.author)
 ```
 
-- quote_engine module
-  Responsible for parsing/ingesting quotes. Example of usage:
+- quote_engine - responsible for parsing/ingesting quotes.<br>
+  Example of usage:
 
 ```python
  Ingestor.parse(quotes_file_path)
