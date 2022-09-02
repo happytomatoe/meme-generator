@@ -1,10 +1,13 @@
 """Provides functionality to ingest quotes."""
+import os
 import subprocess
+import uuid
 from abc import ABC, abstractmethod
 from typing import List
 
 import pandas as pd
 from docx import Document
+from docx.opc.exceptions import PackageNotFoundError
 
 from quote_engine.helper import create_quote
 from quote_engine.models import QuoteModel
@@ -57,11 +60,14 @@ class CsvIngestor(FileBasedIngestorInterface):
         :param path: path to a csv file
         :return: list of quotes
         """
-        df = pd.read_csv(path)
-        return [
-            (QuoteModel(author=row.author, body=row.body))
-            for index, row in df.iterrows()
-        ]
+        try:
+            df = pd.read_csv(path)
+            return [
+                (QuoteModel(author=row.author, body=row.body))
+                for index, row in df.iterrows()
+            ]
+        except FileNotFoundError:
+            raise FileNotFoundError("Can not find file" + path)
 
 
 class DocxIngestor(FileBasedIngestorInterface):
@@ -75,10 +81,12 @@ class DocxIngestor(FileBasedIngestorInterface):
         :param path: path to a docx file
         :return: list of quotes
         """
-        # Add validation(file exits)
-        doc = Document(path)
-        res = [create_quote(para.text) for para in doc.paragraphs]
-        return [r for r in res if r is not None]
+        try:
+            doc = Document(path)
+            res = [create_quote(para.text) for para in doc.paragraphs]
+            return [r for r in res if r is not None]
+        except PackageNotFoundError:
+            raise FileNotFoundError("Cannot find file " + path)
 
 
 class TxtIngestor(FileBasedIngestorInterface):
@@ -93,10 +101,12 @@ class TxtIngestor(FileBasedIngestorInterface):
         :param path: path to a txt file
         :return: list of quotes
         """
-        with open(path, encoding="utf-8") as file:
-            # TODO: add validation
-            res = [create_quote(line) for line in file.readlines()]
-            return [r for r in res if r is not None]
+        try:
+            with open(path, encoding="utf-8") as file:
+                res = [create_quote(line) for line in file.readlines()]
+                return [r for r in res if r is not None]
+        except FileNotFoundError:
+            raise FileNotFoundError("Cannot find file " + path)
 
 
 class PdfIngestor(FileBasedIngestorInterface):
@@ -104,28 +114,28 @@ class PdfIngestor(FileBasedIngestorInterface):
 
     file_extension = ".pdf"
     LINE_FEED = chr(12)
-    TXT_FILE_SUFFIX = "Pdf.txt"
 
     def parse(cls, path: str) -> List[QuoteModel]:
         """Ingest list of quotes from pdf file.
 
         :param path: path to the pdf file
         """
-        new_path = path[: path.index(cls.file_extension)] + cls.TXT_FILE_SUFFIX
+        if not os.path.isfile(path):
+            raise FileNotFoundError("Cannot find file " + path)
+        res = []
+        new_path = path[: path.index(cls.file_extension)] + str(uuid.uuid4()) + ".txt"
         subprocess.run(["pdftotext", "-layout", path, new_path], check=True)
         with open(new_path, encoding="utf-8") as file:
             res = [
                 create_quote(line) for line in file.readlines() if line != cls.LINE_FEED
             ]
-            return [r for r in res if r is not None]
+            res = [r for r in res if r is not None]
+        os.remove(new_path)
+        return res
 
 
 class IngestorNotFoundException(Exception):
     """Raised when ingestor is not found."""
-
-
-# TODO: add exception for *Invalid File, Invalid Text Input (e.g. too long)
-# Extension: Use os.walk to automatically discover ingestible files in a directory
 
 
 class Ingestor(IngestorInterface):

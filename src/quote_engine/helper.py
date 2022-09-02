@@ -9,7 +9,6 @@ def create_quote(quote_string: str) -> Optional[QuoteModel]:
 
     :param quote_string: The quote string
     """
-    # Add validation
     quote_string = __clean(quote_string)
     if len(quote_string) == 0:
         return None
