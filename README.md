@@ -1,5 +1,7 @@
 # Meme Generator
 ![Web application overview](docs/meme-generator.gif)
+Web application provides functionality to generate random meme and also has an option to create custom meme.
+
 ## Instructions for setup and running project
 
 1) Install dependencies:<br>
@@ -35,10 +37,12 @@
 - as a cmd application
 
 ```bash
-$ python src/meme.py
+$ cd src
+$ python meme.py -h
 usage: meme.py [-h] [--path PATH] [--body BODY] [--author AUTHOR]
 
-Generate a motivational meme
+Generate a motivational meme. The script returns a path to a generated image.
+If any argument is not defined, a random selection is used.
 
 options:
   -h, --help       show this help message and exit
@@ -50,7 +54,8 @@ options:
 - as a web application:
 
 ```bash
-python src/app.py
+$ cd src
+$ python app.py
 ```
 
 or

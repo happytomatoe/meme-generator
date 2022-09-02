@@ -28,7 +28,6 @@ def generate_meme(path=None, body=None, author=None):
     if path is None:
         images_folder = "./_data/photos/dog/"
         imgs = find_images_in_folder(images_folder)
-        print(imgs)
         if imgs is None or len(imgs) == 0:
             raise Exception("Could not find images in folder", images_folder)
         img = random.choice(imgs)
@@ -43,7 +42,6 @@ def generate_meme(path=None, body=None, author=None):
             "./_data/DogQuotes/DogQuotesCSV.csv",
         ]
         quotes = ingest_quotes(quote_files)
-        print("Quotes:", quotes)
         quote = random.choice(quotes)
     else:
         if author is None:
@@ -55,7 +53,9 @@ def generate_meme(path=None, body=None, author=None):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Generate a motivational meme")
+    parser = argparse.ArgumentParser(description="Generate a motivational meme. "
+                                                 "The script returns a path to a generated image. "
+                                                 "If any argument is not defined, a random selection is used.")
     parser.add_argument("--path", type=str, help="path to an image file")
     parser.add_argument("--body", type=str, help="quote body to add to the image")
     parser.add_argument("--author", type=str, help="quote author to add to the image")

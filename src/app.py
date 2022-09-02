@@ -37,10 +37,7 @@ def setup():
     images_path = "./_data/photos/dog/"
 
     quotes = ingest_quotes(quote_files)
-    print("Quotes:", quotes)
-
     imgs = find_images_in_folder(images_path)
-    print("Images", imgs)
     return quotes, imgs
 
 
