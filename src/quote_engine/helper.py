@@ -22,6 +22,6 @@ def __clean(s: str) -> str:
 
     :param s: The string to clean
     """
-    res = s.replace("\"", "")
+    res = s.replace('"', "")
     res = res.encode("ascii", "ignore").decode()
     return res

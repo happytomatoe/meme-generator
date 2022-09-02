@@ -1,4 +1,4 @@
-Generate a motivational meme<br>
+# Meme Generator
 ![Web application overview](docs/meme-generator.gif)
 ## Instructions for setup and running project
 

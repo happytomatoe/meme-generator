@@ -12,4 +12,4 @@ class QuoteModel:
 
     def __str__(self):
         """Return user-friendly view of the quote."""
-        return f"\"{self.body}\" - {self.author}"
+        return f'"{self.body}" - {self.author}'

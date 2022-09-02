@@ -58,8 +58,10 @@ class CsvIngestor(FileBasedIngestorInterface):
         :return: list of quotes
         """
         df = pd.read_csv(path)
-        return [(QuoteModel(author=row.author, body=row.body))
-                for index, row in df.iterrows()]
+        return [
+            (QuoteModel(author=row.author, body=row.body))
+            for index, row in df.iterrows()
+        ]
 
 
 class DocxIngestor(FileBasedIngestorInterface):
@@ -91,7 +93,7 @@ class TxtIngestor(FileBasedIngestorInterface):
         :param path: path to a txt file
         :return: list of quotes
         """
-        with open(path, encoding='utf-8') as file:
+        with open(path, encoding="utf-8") as file:
             # TODO: add validation
             res = [create_quote(line) for line in file.readlines()]
             return [r for r in res if r is not None]
@@ -109,18 +111,22 @@ class PdfIngestor(FileBasedIngestorInterface):
 
         :param path: path to the pdf file
         """
-        new_path = path[:path.index(cls.file_extension)] + cls.TXT_FILE_SUFFIX
+        new_path = path[: path.index(cls.file_extension)] + cls.TXT_FILE_SUFFIX
         subprocess.run(["pdftotext", "-layout", path, new_path], check=True)
-        with open(new_path, encoding='utf-8') as file:
-            res = [create_quote(line) for line in file.readlines()
-                   if line != cls.LINE_FEED]
+        with open(new_path, encoding="utf-8") as file:
+            res = [
+                create_quote(line) for line in file.readlines() if line != cls.LINE_FEED
+            ]
             return [r for r in res if r is not None]
 
 
 class IngestorNotFoundException(Exception):
     """Raised when ingestor is not found."""
+
+
 # TODO: add exception for *Invalid File, Invalid Text Input (e.g. too long)
 # Extension: Use os.walk to automatically discover ingestible files in a directory
+
 
 class Ingestor(IngestorInterface):
     """Ingest quotes."""

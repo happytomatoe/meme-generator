@@ -11,11 +11,12 @@ class MemeEngine:
     """Provides functionality for manipulating memes."""
 
     def __init__(
-            self,
-            output_dir: str,
-            font_path="fonts/impact.ttf",
-            font_size: int = 30,
-            transformed_image_format="GIF"):
+        self,
+        output_dir: str,
+        font_path="fonts/impact.ttf",
+        font_size: int = 30,
+        transformed_image_format="GIF",
+    ):
         """Create Meme Engine.
 
         :param output_dir: location where to save transformed images
@@ -43,28 +44,33 @@ class MemeEngine:
         """
         image = Image.open(image_source)
         if image.width > max_width:
-            ratio = (max_width / float(image.size[0]))
+            ratio = max_width / float(image.size[0])
             hsize = int((float(image.size[1]) * float(ratio)))
             image = image.resize((max_width, hsize), Image.ANTIALIAS)
 
         draw_context = ImageDraw.Draw(image)
-        MemeEngine.__draw_text(draw_context, 20, 60, body + "\n- " + author,
-                               font=self.font, fill="white")
-        path = os.path.join(self.output_dir, str(uuid.uuid4()) + "." + self.transformed_image_format.lower())
+        MemeEngine.__draw_text(
+            draw_context, 20, 60, body + "\n- " + author, font=self.font, fill="white"
+        )
+        path = os.path.join(
+            self.output_dir,
+            str(uuid.uuid4()) + "." + self.transformed_image_format.lower(),
+        )
         image.save(path, self.transformed_image_format)
 
         return path
 
     @staticmethod
     def __draw_text(
-            draw_context: ImageDraw,
-            x: float,
-            y: float,
-            text: str,
-            font: ImageFont,
-            fill,
-            border_color='black',
-            border_thickness=1):
+        draw_context: ImageDraw,
+        x: float,
+        y: float,
+        text: str,
+        font: ImageFont,
+        fill,
+        border_color="black",
+        border_thickness=1,
+    ):
         """Draw multiline text with border.
 
         :param: draw: draw context used to draw text
@@ -76,27 +82,27 @@ class MemeEngine:
         :param: border_thickness: thickness of the border
         """
         draw_context.multiline_text(
-            (x - border_thickness,
-             y - border_thickness),
+            (x - border_thickness, y - border_thickness),
             text,
             font=font,
-            fill=border_color)
+            fill=border_color,
+        )
         draw_context.multiline_text(
-            (x + border_thickness,
-             y - border_thickness),
+            (x + border_thickness, y - border_thickness),
             text,
             font=font,
-            fill=border_color)
+            fill=border_color,
+        )
         draw_context.multiline_text(
-            (x - border_thickness,
-             y + border_thickness),
+            (x - border_thickness, y + border_thickness),
             text,
             font=font,
-            fill=border_color)
+            fill=border_color,
+        )
         draw_context.multiline_text(
-            (x + border_thickness,
-             y + border_thickness),
+            (x + border_thickness, y + border_thickness),
             text,
             font=font,
-            fill=border_color)
+            fill=border_color,
+        )
         draw_context.multiline_text((x, y), text, font=font, fill=fill)
